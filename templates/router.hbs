@@ -1,0 +1,36 @@
+import { {{modelName}}Controller } from "@controller/{{modelPathName}}/{{modelPathName}}";
+import { container } from "@di/container";
+import { Injectable } from "@di/Injectable";
+import { ExtendedRouterBuilder } from "@functions/registry-extended";
+
+import { {{modelName}}Model } from "@model/{{modelPathName}}/{{modelPathName}}";
+import { Idempotent } from "@qualitysistemas/bun-commons";
+import { Router } from "express";
+import { BaseRegistry } from "@routes/../baseRouter";
+
+@Injectable()
+export class {{modelName}}Registry extends BaseRegistry {
+  constructor(protected readonly controller: {{modelName}}Controller) {
+    super(controller);
+  }
+
+  configure(router: Router) {
+    this.routeBase = new ExtendedRouterBuilder(router);
+    this.route = this.routeBase.withAuthAndPermissions({{modelName}}Model);
+
+    const idempotentMiddleware = Idempotent({
+      ttl: 30_000,
+    });
+
+    this.routeWithExtraInfo = this.route.extend([idempotentMiddleware]);
+    this.routeWithPaginate = this.route.withPrismaOptions({{modelName}}Model);
+    this.routeWithIdempotency = this.route.extend([idempotentMiddleware]);
+  }
+}
+
+export const registry = async (router: Router) => {
+  const instance = container.get({{modelName}}Registry);
+  const register = instance.register.bind(instance);
+
+  register(router);
+};

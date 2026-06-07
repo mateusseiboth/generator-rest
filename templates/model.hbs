@@ -1,0 +1,22 @@
+import { BaseModel } from "@model/base";
+import { Field, InitFields, ModelTagged } from "@qualitysistemas/bun-commons";
+
+@InitFields
+@ModelTagged
+export class {{modelName}}Model extends BaseModel {
+	static tag = "{{modelTag}}";
+	static nome = "{{modelName}}";
+
+	@Field() id!: string;
+
+	constructor(data?: {{modelName}}Model) {
+		super();
+		if (data) {
+			this.setData(data);
+		}
+	}
+
+	static getModel() {
+		return new {{modelName}}Model();
+	}
+}

@@ -1,0 +1,45 @@
+import { {{modelName}}DAO } from "@dao/{{modelPathName}}/{{modelPathName}}";
+import { Injectable } from "@di/Injectable";
+import { requireContext } from "@middleware/context";
+import { {{modelName}}Model } from "@model/{{modelPathName}}/{{modelPathName}}";
+import { BaseService } from "@service/base";
+
+@Injectable()
+export class {{modelName}}Service extends BaseService<{{modelName}}Model, {{modelName}}DAO> {
+  constructor(protected dao: {{modelName}}DAO) {
+    super(dao);
+  }
+
+  async create(data: {{modelName}}Model): Promise<object> {
+    const filtered = this.filterByModel(data, {{modelName}}Model) as {{modelName}}Model;
+    const createData = {
+      ...filtered,
+      modifiedBy: requireContext().user.id,
+      entidade: requireContext().entity,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    return this.dao.create(createData);
+  }
+
+  async update(data: {{modelName}}Model, id: string): Promise<object> {
+    const payload = new {{modelName}}Model(data);
+    const ctx = requireContext();
+    payload.modifiedBy = ctx.user.id;
+    payload.updatedAt = new Date();
+
+    const onDatabase = await this.dao.getById(id);
+    if (!onDatabase) {
+      throw new Error("Model não encontrado para atualização.");
+    }
+
+    const filtered = this.filterByModel(payload, {{modelName}}Model) as {{modelName}}Model;
+    const updateData = {
+      ...filtered,
+      updatedAt: new Date().toISOString(),
+    };
+
+    return this.dao.update(updateData as unknown as {{modelName}}Model, id);
+  }
+}

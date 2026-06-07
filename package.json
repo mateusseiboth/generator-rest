@@ -1,0 +1,23 @@
+{
+  "name": "make-struct",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "make-struct": "./cli.js"
+  },
+  "scripts": {
+    "start": "tsx index.ts",
+    "dev": "tsx index.ts",
+    "generate": "tsx index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/bun": "latest",
+    "tsx": "^4"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "typescript": "^5"
+  }
+}

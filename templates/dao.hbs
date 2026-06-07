@@ -1,0 +1,10 @@
+import { BaseDAO } from "@dao/base";
+import { Injectable } from "@di/Injectable";
+import { {{modelName}}Model } from "@model/{{modelPathName}}/{{modelPathName}}";
+import { DAOFor } from "@qualitysistemas/bun-commons";
+
+@DAOFor({{modelName}}Model.tag)
+@Injectable()
+export class {{modelName}}DAO extends BaseDAO{{modelName}}Model> {
+  tableName = "{{tableName}}";
+}

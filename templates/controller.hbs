@@ -1,0 +1,13 @@
+import { BaseController } from "@controller/BaseController";
+import { Injectable } from "@di/Injectable";
+import { Cacheable, TransactionalClass } from "@qualitysistemas/bun-commons";
+import { {{modelName}}Service } from "@service/{{modelPathName}}/{{modelPathName}}";
+
+@Cacheable({ ttl: 15_000 })
+@TransactionalClass
+@Injectable()
+export class {{modelName}}Controller extends BaseController {
+	constructor(protected readonly service: {{modelName}}Service) {
+		super(service);
+	}
+}

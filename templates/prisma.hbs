@@ -1,0 +1,13 @@
+model {{modelName}} {
+  id           String         @id @default(uuid())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  modifiedBy   String
+  enabled      Boolean        @default(true)
+  sequencial   BigInt?
+  active       Boolean        @default(true)
+  deletedAt    DateTime?
+  entidade     Int
+
+  @@index([entidade], name: "{{modelName}}_entidade_idx")
+}
