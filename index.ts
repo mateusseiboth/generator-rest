@@ -2,7 +2,10 @@ import {mkdir, readFile, readdir, writeFile} from "node:fs/promises";
 import path from "node:path";
 import {stdin as inputStream, stdout as outputStream} from "node:process";
 import {createInterface} from "node:readline/promises";
+import {fileURLToPath} from "node:url";
 import ts from "typescript";
+
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 
 const configPath = ts.findConfigFile(".", ts.sys.fileExists);
 
@@ -38,7 +41,7 @@ const modelName = modelInput.charAt(0).toUpperCase() + modelInput.slice(1);
 const modelTag = modelPathName;
 const tableName = modelPathName;
 
-const templatesRoot = path.join(projectRoot, "templates");
+const templatesRoot = path.join(scriptDir, "templates");
 const templateFiles = {
   controller: path.join(templatesRoot, "controller.hbs"),
   dao: path.join(templatesRoot, "dao.hbs"),
@@ -53,7 +56,7 @@ function renderTemplate(template: string, variables: Record<string, string>) {
 }
 
 function templatePath(templatePath: string) {
-  return path.resolve(projectRoot, templatePath);
+  return path.resolve(scriptDir, templatePath);
 }
 
 function resolveAliasRoot(aliasName: string, fallbackSegments: string[]) {
