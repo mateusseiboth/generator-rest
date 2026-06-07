@@ -1,5 +1,5 @@
 {
-  "name": "make-struct",
+  "name": "@mateusseiboth/make-struct",
   "module": "index.ts",
   "type": "module",
   "private": true,
