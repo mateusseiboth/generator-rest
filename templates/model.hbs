@@ -4,7 +4,7 @@ import { Field, InitFields, ModelTagged } from "@qualitysistemas/bun-commons";
 @InitFields
 @ModelTagged
 export class {{modelName}}Model extends BaseModel {
-	static tag = "{{modelTag}}";
+	static tag = 0;
 	static nome = "{{modelName}}";
 
 	@Field() id!: string;
